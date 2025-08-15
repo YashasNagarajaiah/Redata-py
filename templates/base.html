@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Redata{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="brand">REDATA</h1>
+    <form class="search" action="{{ url_for('search') }}" method="GET">
+      <input type="text" name="q" placeholder="Search For Keyword"
+             value="{{ request.args.get('q', '') }}" aria-label="Search" />
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <nav class="nav">
+        <ul>
+          <li><a href="{{ url_for('dashboard') }}" class="nav-link{% if current_tab=='dashboard' %} active{% endif %}">Global</a></li>
+          <li><a href="{{ url_for('climate')   }}" class="nav-link{% if current_tab=='climate'   %} active{% endif %}">Climate & Weather</a></li>
+          <li><a href="{{ url_for('air')       }}" class="nav-link{% if current_tab=='air'       %} active{% endif %}">Air Quality & Pollution</a></li>
+          <li><a href="{{ url_for('waste')     }}" class="nav-link{% if current_tab=='waste'     %} active{% endif %}">Waste & Circular Economy</a></li>
+          <li><a href="{{ url_for('markets')   }}" class="nav-link{% if current_tab=='markets'   %} active{% endif %}">Market Prices & Trade</a></li>
+          <li><a href="{{ url_for('energy')    }}" class="nav-link{% if current_tab=='energy'    %} active{% endif %}">Energy & Carbon</a></li>
+          <li><a href="{{ url_for('policy')    }}" class="nav-link{% if current_tab=='policy'    %} active{% endif %}">Policy</a></li>
+          <li><a href="{{ url_for('graphs') }}" class="nav-link{% if current_tab=='graphs' %} active{% endif %}">Data Insights</a></li>
+          <li><a href="{{ url_for('assistant')    }}" class="nav-link{% if current_tab=='assistant'    %} active{% endif %}">Zain Chatbot</a></li>
+        </ul>
+      </nav>
+      <footer class="sidebar-footer"><small>v1</small></footer>
+    </aside>
+
+    <main class="main">
+      <form class="filters" method="GET" action="{{ url_for(request.endpoint) }}">
+        <input type="hidden" name="tab" value="{{ current_tab|default('dashboard') }}">
+        <div class="filters-row">
+          <label>Region
+            <select name="region" onchange="this.form.submit()">
+              {% for r in ['Dubai','UAE','GCC','MEA','Global'] %}
+                <option value="{{ r }}" {% if (region|default('Global')) == r %}selected{% endif %}>{{ r }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>Timeframe
+            <select name="timeframe" onchange="this.form.submit()">
+              {% for t in ['24h','7D','30D','This Year','All'] %}
+                <option value="{{ t }}" {% if (timeframe|default('7D')) == t %}selected{% endif %}>{{ t }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>Data Type
+            <select name="dtype" onchange="this.form.submit()">
+              {% for d in ['Graph','Table','Map','Raw'] %}
+                <option value="{{ d }}" {% if (dtype|default('Raw')) == d %}selected{% endif %}>{{ d }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <input type="hidden" name="q" value="{{ q or '' }}">
+        </div>
+      </form>
+
+      <section class="container">
+        {% block content %}{% endblock %}
+      </section>
+
+      <footer class="site-footer">
+        <small>&copy; {{ now().year }} REDATA</small>
+      </footer>
+    </main>
+  </div>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
+
+

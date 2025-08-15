@@ -1,0 +1,43 @@
+<section class="bbc-grid">
+  {% for a in articles %}
+    <article class="bbc-card">
+      <a href="{{ a.link }}" target="_blank" rel="noopener">
+        {% if a.image %}
+          <img class="bbc-thumb" src="{{ a.image }}" alt="{{ a.title }}" loading="lazy">
+        {% endif %}
+        <h3 class="bbc-title">{{ a.title }}</h3>
+      </a>
+      {% if a.summary %}<p class="bbc-desc">{{ a.summary }}</p>{% endif %}
+      <div class="bbc-meta">{{ a.source }}{% if a.published %} • {{ a.published }}{% endif %}</div>
+    </article>
+  {% endfor %}
+</section>
+
+<nav class="pager">
+  {# keep all existing query params #}
+  {% set args = request.args.to_dict(flat=False) %}
+
+  {% if page > 1 %}
+    {% set prev_args = args.copy() %}
+    {% set _ = prev_args.update({'page': [page-1]}) %}
+    <a class="btn" rel="prev"
+       href="{{ url_for(request.endpoint, **request.view_args) }}?{{ urlencode(prev_args) }}">← Prev</a>
+  {% else %}
+    <span class="btn disabled">← Prev</span>
+  {% endif %}
+
+  <span class="page-count">Page {{ page }} of {{ total_pages }} • {{ total_articles }} articles</span>
+
+  {% if page < total_pages %}
+    {% set next_args = args.copy() %}
+    {% set _ = next_args.update({'page': [page+1]}) %}
+    <a class="btn" rel="next"
+       href="{{ url_for(request.endpoint, **request.view_args) }}?{{ urlencode(next_args) }}">Next →</a>
+  {% else %}
+    <span class="btn disabled">Next →</span>
+  {% endif %}
+</nav>
+
+
+
+

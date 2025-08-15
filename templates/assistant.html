@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Zain AI Assistant{% endblock %}
+
+{% block content %}
+<h2 class="page-heading">Zain AI Assistant</h2>
+<div class="card">
+  <p>Ask data questions about climate, waste, energy, or market signals.</p>
+  <form class="assistant-form" method="POST" action="/assistant/ask">
+    <textarea name="q" rows="10" placeholder="e.g., Show UAE plastic waste trend for the last 5 years"></textarea>
+    <button type="submit">Ask</button>
+  </form>
+  <!-- Render answers below on POST -->
+  {% if answer %}
+    <div class="answer">{{ answer|safe }}</div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Search — {{ query }}{% endblock %}
+
+{% block content %}
+<h2>Results for “{{ query }}”</h2>
+
+{% if not articles %}
+  <p class="empty">No results found.</p>
+{% else %}
+  <section class="grid">
+    {% for a in articles %}
+      <article class="card">
+        {% if a.image %}
+          <img class="thumb" src="{{ a.image }}" alt="thumbnail" loading="lazy">
+        {% else %}
+          <div class="thumb"></div>
+        {% endif %}
+        <div class="content">
+          <a href="{{ a.link }}" target="_blank" rel="noopener">
+            <strong>{{ a.title }}</strong>
+          </a>
+          <div class="meta">{{ a.source }}{% if a.published %} • {{ a.published }}{% endif %}</div>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+{% endif %}
+{% endblock %}

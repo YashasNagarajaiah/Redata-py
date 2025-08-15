@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+  {% if articles and articles|length > 0 %}
+  <section class="bbc-hero">
+    <a href="{{ articles[0].link }}" target="_blank" class="bbc-hero-link">
+      {% if articles[0].image %}
+        <img src="{{ articles[0].image }}" alt="{{ articles[0].title }}">
+      {% endif %}
+      <div class="bbc-hero-text">
+        <h1>{{ articles[0].title }}</h1>
+        {% if articles[0].summary %}<p>{{ articles[0].summary }}</p>{% endif %}
+        <div class="bbc-meta">{{ articles[0].source }}{% if articles[0].published %} • {{ articles[0].published }}{% endif %}</div>
+      </div>
+    </a>
+  </section>
+  {% endif %}
+
+  {% if articles|length > 1 %}
+  <section class="bbc-secondary">
+    {% for a in articles[1:4] %}
+      <article class="bbc-card">
+        <a href="{{ a.link }}" target="_blank" rel="noopener">
+          {% if a.image %}<img class="bbc-thumb" src="{{ a.image }}" alt="{{ a.title }}">{% endif %}
+          <h3 class="bbc-title">{{ a.title }}</h3>
+        </a>
+        {% if a.summary %}<p class="bbc-desc">{{ a.summary }}</p>{% endif %}
+        <div class="bbc-meta">{{ a.source }}{% if a.published %} • {{ a.published }}{% endif %}</div>
+      </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% include "_feed_list.html" %}
+{% endblock %}
+

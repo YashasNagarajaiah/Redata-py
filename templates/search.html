@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+  <h2 class="bbc-section-title">Search results{% if q %} for “{{ q }}”{% endif %}</h2>
+  {% if not articles %}
+    <p>No results found.</p>
+  {% else %}
+    {% include "_feed_list.html" %}
+  {% endif %}
+{% endblock %}

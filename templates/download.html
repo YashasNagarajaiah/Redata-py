@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Data Download / API Access{% endblock %}
+
+{% block content %}
+<h2 class="page-heading">Data Download / API Access</h2>
+<p>Select a dataset or API to download or query. (Wire these to your real endpoints.)</p>
+
+<ul class="list">
+  <li><a href="/api/export?topic=climate">Export Climate Articles (CSV)</a></li>
+  <li><a href="/api/export?topic=waste">Export Waste & Circular Economy (CSV)</a></li>
+  <li><a href="/api/articles?topic=energy&format=json">Articles API (JSON)</a></li>
+</ul>
+{% endblock %}
