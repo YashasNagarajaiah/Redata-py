@@ -1,12 +1,12 @@
 # charts.py
 import altair as alt
 import pandas as pd
-
+import os
 # Load your dataset
-df = pd.read_csv(
-    "C:/Users/yasha/OneDrive/Desktop/Dataset/ReData/Global/Waste/Food/food-waste-per-capita.csv"
-)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(BASE_DIR, "data", "food-waste-per-capita.csv")
 
+df = pd.read_csv(file_path)
 # Ensure numeric types
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 for col in ["Retail", "home consumption", "Households"]:
