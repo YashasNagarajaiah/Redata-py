@@ -151,7 +151,7 @@ def inject_globals():
 # -------- Renderer + routes --------------------------------------------------
 def render_feed_page(tab_key: str, template_name: str, page_title: str):
     page     = request.args.get("page", 1, type=int)
-    per_page = 10
+    per_page = 12
     feeds    = FEED_GROUPS.get(tab_key, FEED_GROUPS["dashboard"])
     items    = load_articles_from(feeds)
 
